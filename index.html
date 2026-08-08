@@ -5,30 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marquesina LED</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Cloudflare Turnstile -->
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
-    <!-- =========================
-         PANTALLA DE VERIFICACIÓN
-    ========================== -->
-    <div id="captchaScreen" class="screen">
-        <div class="captcha-box">
-            <h1>Marquesina LED</h1>
-            <p>Verifica que eres humano para continuar.</p>
-            <!-- IMPORTANTE:
-                 Reemplaza YOUR_SITE_KEY por tu Site Key de Cloudflare -->
-            <div
-                class="cf-turnstile"
-                data-sitekey="YOUR_SITE_KEY"
-                data-callback="captchaVerified">
-            </div>
-        </div>
-    </div>
-    <!-- =========================
-         CONFIGURACIÓN
-    ========================== -->
-    <div id="app" class="hidden">
+    <div id="app">
+        <!-- PANEL DE CONTROL -->
         <div class="control-panel">
             <h1>Marquesina LED</h1>
             <label for="message">
@@ -47,7 +27,7 @@
                 type="range"
                 id="speed"
                 min="5"
-                max="100"
+                max="150"
                 value="40"
             >
             <div class="buttons">
@@ -59,9 +39,7 @@
                 </button>
             </div>
         </div>
-        <!-- =========================
-             MARQUESINA
-        ========================== -->
+        <!-- MARQUESINA -->
         <div id="marqueeScreen" class="marquee-screen">
             <button
                 id="exitFullscreen"
