@@ -1,16 +1,4 @@
 /* ==========================================
-   MARQUESINA LED
-========================================== */
-/* ==========================================
-   CAPTCHA
-========================================== */
-function captchaVerified() {
-    const captchaScreen = document.getElementById("captchaScreen");
-    const app = document.getElementById("app");
-    captchaScreen.classList.add("hidden");
-    app.classList.remove("hidden");
-}
-/* ==========================================
    ELEMENTOS
 ========================================== */
 const messageInput = document.getElementById("message");
@@ -22,7 +10,7 @@ const marqueeScreen = document.getElementById("marqueeScreen");
 const marqueeTrack = document.getElementById("marqueeTrack");
 const marqueeText = document.getElementById("marqueeText");
 /* ==========================================
-   VARIABLES DE ANIMACIÓN
+   VARIABLES
 ========================================== */
 let position = window.innerWidth;
 let animationFrame = null;
@@ -50,8 +38,7 @@ function resetPosition() {
    VELOCIDAD
 ========================================== */
 function getSpeed() {
-    const value = Number(speedInput.value);
-    return value;
+    return Number(speedInput.value);
 }
 /* ==========================================
    ANIMACIÓN
@@ -63,15 +50,9 @@ function animate(timestamp) {
     const deltaTime =
         (timestamp - lastTime) / 1000;
     lastTime = timestamp;
-    const speed = getSpeed();
-    position -= speed * deltaTime;
+    position -= getSpeed() * deltaTime;
     const textWidth =
         marqueeText.offsetWidth;
-    /*
-       Cuando el texto desaparece completamente
-       por la izquierda, vuelve a comenzar desde
-       la derecha.
-    */
     if (position < -textWidth) {
         position = window.innerWidth;
     }
@@ -103,7 +84,7 @@ showButton.addEventListener(
     }
 );
 /* ==========================================
-   ENTER EN EL CAMPO DE TEXTO
+   ENTER
 ========================================== */
 messageInput.addEventListener(
     "keydown",
@@ -142,27 +123,26 @@ exitFullscreen.addEventListener(
     }
 );
 /* ==========================================
-   ESCAPE
+   TECLA ESC
 ========================================== */
 document.addEventListener(
     "keydown",
     function (event) {
-        if (event.key === "Escape") {
-            if (document.fullscreenElement) {
-                document.exitFullscreen();
-            }
+        if (
+            event.key === "Escape" &&
+            document.fullscreenElement
+        ) {
+            document.exitFullscreen();
         }
     }
 );
 /* ==========================================
-   AJUSTE AL CAMBIAR TAMAÑO
+   CAMBIO DE TAMAÑO
 ========================================== */
 window.addEventListener(
     "resize",
     function () {
-        if (!document.fullscreenElement) {
-            resetPosition();
-        }
+        resetPosition();
     }
 );
 /* ==========================================
