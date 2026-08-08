@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marquesina LED</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Cloudflare Turnstile -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+<body>
+    <!-- =========================
+         PANTALLA DE VERIFICACIÓN
+    ========================== -->
+    <div id="captchaScreen" class="screen">
+        <div class="captcha-box">
+            <h1>Marquesina LED</h1>
+            <p>Verifica que eres humano para continuar.</p>
+            <!-- IMPORTANTE:
+                 Reemplaza YOUR_SITE_KEY por tu Site Key de Cloudflare -->
+            <div
+                class="cf-turnstile"
+                data-sitekey="YOUR_SITE_KEY"
+                data-callback="captchaVerified">
+            </div>
+        </div>
+    </div>
+    <!-- =========================
+         CONFIGURACIÓN
+    ========================== -->
+    <div id="app" class="hidden">
+        <div class="control-panel">
+            <h1>Marquesina LED</h1>
+            <label for="message">
+                Texto de la marquesina
+            </label>
+            <input
+                type="text"
+                id="message"
+                placeholder="Escribe aquí el texto..."
+                autocomplete="off"
+            >
+            <label for="speed">
+                Velocidad
+            </label>
+            <input
+                type="range"
+                id="speed"
+                min="5"
+                max="100"
+                value="40"
+            >
+            <div class="buttons">
+                <button id="showButton">
+                    Mostrar
+                </button>
+                <button id="fullscreenButton">
+                    Pantalla completa
+                </button>
+            </div>
+        </div>
+        <!-- =========================
+             MARQUESINA
+        ========================== -->
+        <div id="marqueeScreen" class="marquee-screen">
+            <button
+                id="exitFullscreen"
+                class="exit-button"
+                aria-label="Salir de pantalla completa">
+                ×
+            </button>
+            <div class="led-container">
+                <div id="marqueeTrack" class="marquee-track">
+                    <span id="marqueeText">
+                        MARQUESINA LED
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
