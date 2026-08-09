@@ -4,6 +4,10 @@
 
 const FONT = {
 
+    /* =====================================
+       LETRAS
+    ===================================== */
+
     "A": [
         "01110",
         "10001",
@@ -424,6 +428,16 @@ const FONT = {
         "00100"
     ],
 
+    "¡": [
+        "00100",
+        "00000",
+        "00100",
+        "00100",
+        "00100",
+        "00100",
+        "00100"
+    ],
+
     "?": [
         "01110",
         "10001",
@@ -431,6 +445,16 @@ const FONT = {
         "00010",
         "00100",
         "00000",
+        "00100"
+    ],
+
+    "¿": [
+        "00100",
+        "00000",
+        "00100",
+        "01000",
+        "10001",
+        "01110",
         "00100"
     ],
 
@@ -452,6 +476,86 @@ const FONT = {
         "01000",
         "01000",
         "10000"
+    ],
+
+    "\"": [
+        "10001",
+        "10001",
+        "01010",
+        "00100",
+        "00000",
+        "00000",
+        "00000"
+    ],
+
+    "'": [
+        "00100",
+        "00100",
+        "00000",
+        "00000",
+        "00000",
+        "00000",
+        "00000"
+    ],
+
+    "(": [
+        "00010",
+        "00100",
+        "01000",
+        "01000",
+        "01000",
+        "00100",
+        "00010"
+    ],
+
+    ")": [
+        "01000",
+        "00100",
+        "00010",
+        "00010",
+        "00010",
+        "00100",
+        "01000"
+    ],
+
+    "+": [
+        "00000",
+        "00100",
+        "00100",
+        "11111",
+        "00100",
+        "00100",
+        "00000"
+    ],
+
+    "=": [
+        "00000",
+        "11111",
+        "00000",
+        "11111",
+        "00000",
+        "00000",
+        "00000"
+    ],
+
+    "%": [
+        "11001",
+        "11010",
+        "00010",
+        "00100",
+        "01000",
+        "01011",
+        "10011"
+    ],
+
+    " ": [
+        "00000",
+        "00000",
+        "00000",
+        "00000",
+        "00000",
+        "00000",
+        "00000"
     ]
 
 };
@@ -503,14 +607,6 @@ let lastTime = null;
 
 function normalizeCharacter(character) {
 
-    /*
-       Conservamos Ñ porque tiene su propio
-       diseño.
-
-       Las vocales acentuadas utilizan la
-       misma matriz que su vocal normal.
-    */
-
     const replacements = {
 
         "Á": "A",
@@ -527,11 +623,16 @@ function normalizeCharacter(character) {
         "ú": "U",
         "ü": "U",
 
-        "ñ": "Ñ"
+        "ñ": "Ñ",
+
+        "¿": "¿",
+        "¡": "¡"
 
     };
 
-    return replacements[character] || character;
+    return replacements[character] ||
+           character.toUpperCase();
+
 }
 
 
@@ -544,8 +645,22 @@ function createCharacter(character) {
     character =
         normalizeCharacter(character);
 
+    /*
+       IMPORTANTE:
+
+       Si el carácter no existe,
+       usamos un espacio vacío.
+
+       ANTES:
+       FONT[character] || FONT["?"]
+
+       Eso era lo que provocaba
+       que aparecieran tantos signos ?.
+    */
+
     const matrix =
-        FONT[character] || FONT["?"];
+        FONT[character] || FONT[" "];
+
 
     const characterElement =
         document.createElement("div");
@@ -643,11 +758,6 @@ function updateText() {
     marqueeTrack.innerHTML = "";
 
 
-    /*
-       Dos copias permiten que el mensaje
-       sea continuo.
-    */
-
     const first =
         createMessage(text);
 
@@ -738,8 +848,9 @@ function animate(timestamp) {
     }
 
 
+    /* CORREGIDO */
     marqueeTrack.style.transform =
-        `translateX(${position}px`;
+        `translateX(${position}px)`;
 
 
     animationFrame =
@@ -760,6 +871,7 @@ function startAnimation() {
         cancelAnimationFrame(
             animationFrame
         );
+
     }
 
 
@@ -773,6 +885,7 @@ function startAnimation() {
         requestAnimationFrame(
             animate
         );
+
 }
 
 
