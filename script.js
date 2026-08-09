@@ -137,10 +137,20 @@ const FONT = {
     "N": [
         "10001",
         "11001",
-        "11001",
+        "10101",
         "10101",
         "10011",
+        "10001",
+        "10001"
+    ],
+
+    "Ñ": [
+        "10001",
+        "11001",
+        "10101",
+        "10101",
         "10011",
+        "10001",
         "10001"
     ],
 
@@ -265,6 +275,10 @@ const FONT = {
     ],
 
 
+    /* =====================================
+       NÚMEROS
+    ===================================== */
+
     "0": [
         "01110",
         "10001",
@@ -366,6 +380,10 @@ const FONT = {
     ],
 
 
+    /* =====================================
+       CARACTERES ESPECIALES
+    ===================================== */
+
     ".": [
         "00000",
         "00000",
@@ -374,6 +392,16 @@ const FONT = {
         "00000",
         "00100",
         "00100"
+    ],
+
+    ",": [
+        "00000",
+        "00000",
+        "00000",
+        "00000",
+        "00000",
+        "00100",
+        "01000"
     ],
 
     "-": [
@@ -459,7 +487,7 @@ const marqueeTrack =
 
 
 /* =========================================
-   VARIABLES DE ANIMACIÓN
+   VARIABLES
 ========================================= */
 
 let position = window.innerWidth;
@@ -470,10 +498,51 @@ let lastTime = null;
 
 
 /* =========================================
-   CREAR UN CARÁCTER LED
+   NORMALIZAR CARACTERES
+========================================= */
+
+function normalizeCharacter(character) {
+
+    /*
+       Conservamos Ñ porque tiene su propio
+       diseño.
+
+       Las vocales acentuadas utilizan la
+       misma matriz que su vocal normal.
+    */
+
+    const replacements = {
+
+        "Á": "A",
+        "É": "E",
+        "Í": "I",
+        "Ó": "O",
+        "Ú": "U",
+        "Ü": "U",
+
+        "á": "A",
+        "é": "E",
+        "í": "I",
+        "ó": "O",
+        "ú": "U",
+        "ü": "U",
+
+        "ñ": "Ñ"
+
+    };
+
+    return replacements[character] || character;
+}
+
+
+/* =========================================
+   CREAR CARÁCTER
 ========================================= */
 
 function createCharacter(character) {
+
+    character =
+        normalizeCharacter(character);
 
     const matrix =
         FONT[character] || FONT["?"];
@@ -508,12 +577,13 @@ function createCharacter(character) {
 
     }
 
+
     return characterElement;
 }
 
 
 /* =========================================
-   CREAR UN MENSAJE
+   CREAR MENSAJE
 ========================================= */
 
 function createMessage(text) {
@@ -525,11 +595,7 @@ function createMessage(text) {
         "matrix-message";
 
 
-    const characters =
-        text.toUpperCase();
-
-
-    for (const character of characters) {
+    for (const character of text) {
 
         if (character === " ") {
 
@@ -551,6 +617,7 @@ function createMessage(text) {
         }
 
     }
+
 
     return message;
 }
@@ -577,10 +644,8 @@ function updateText() {
 
 
     /*
-       Creamos el mensaje dos veces.
-       Esto permite que la marquesina pueda
-       volver a entrar por la derecha
-       continuamente.
+       Dos copias permiten que el mensaje
+       sea continuo.
     */
 
     const first =
@@ -600,7 +665,7 @@ function updateText() {
 
 
 /* =========================================
-   POSICIÓN
+   POSICIÓN INICIAL
 ========================================= */
 
 function resetPosition() {
@@ -650,10 +715,6 @@ function animate(timestamp) {
         getSpeed() * deltaTime;
 
 
-    /*
-       Anchura del primer mensaje.
-    */
-
     const firstMessage =
         marqueeTrack.children[0];
 
@@ -663,12 +724,6 @@ function animate(timestamp) {
         const messageWidth =
             firstMessage.offsetWidth;
 
-
-        /*
-           Cuando el primer mensaje
-           desaparece completamente,
-           movemos el track de nuevo.
-        */
 
         if (
             position <
@@ -684,7 +739,7 @@ function animate(timestamp) {
 
 
     marqueeTrack.style.transform =
-        `translateX(${position}px)`;
+        `translateX(${position}px`;
 
 
     animationFrame =
@@ -695,7 +750,7 @@ function animate(timestamp) {
 
 
 /* =========================================
-   INICIAR ANIMACIÓN
+   INICIAR
 ========================================= */
 
 function startAnimation() {
@@ -722,7 +777,7 @@ function startAnimation() {
 
 
 /* =========================================
-   MOSTRAR
+   BOTÓN MOSTRAR
 ========================================= */
 
 showButton.addEventListener(
@@ -758,7 +813,7 @@ messageInput.addEventListener(
 
 
 /* =========================================
-   CONTROL DE VELOCIDAD
+   VELOCIDAD
 ========================================= */
 
 speedInput.addEventListener(
@@ -798,7 +853,7 @@ fullscreenButton.addEventListener(
 
 
 /* =========================================
-   SALIR DE PANTALLA COMPLETA
+   SALIR
 ========================================= */
 
 exitFullscreen.addEventListener(
@@ -837,7 +892,7 @@ document.addEventListener(
 
 
 /* =========================================
-   CAMBIO DE TAMAÑO
+   RESIZE
 ========================================= */
 
 window.addEventListener(
